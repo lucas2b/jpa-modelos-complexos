@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,7 +30,7 @@ public class Pedido {
 	@ManyToOne
 	private Cliente cliente;
 	
-	@OneToMany(mappedBy = "pedido") //mappedBy a evita criação de uma nova tabela
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL) //mappedBy a evita criação de uma nova tabela
 	private List<ItemPedido> listaItemPedido = new ArrayList<ItemPedido>();
 
 	public List<ItemPedido> getListaItemPedido() {

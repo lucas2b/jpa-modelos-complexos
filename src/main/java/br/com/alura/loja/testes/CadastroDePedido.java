@@ -1,7 +1,6 @@
 package br.com.alura.loja.testes;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,13 +8,13 @@ import javax.persistence.EntityManager;
 import org.h2.tools.Server;
 
 import br.com.alura.loja.dao.ClienteDao;
+import br.com.alura.loja.dao.ItemPedidoDao;
 import br.com.alura.loja.dao.PedidoDao;
 import br.com.alura.loja.dao.ProdutoDao;
-import br.com.alura.loja.dao.ItemPedidoDao;
 import br.com.alura.loja.modelo.Cliente;
+import br.com.alura.loja.modelo.ItemPedido;
 import br.com.alura.loja.modelo.Pedido;
 import br.com.alura.loja.modelo.Produto;
-import br.com.alura.loja.modelo.ItemPedido;
 import br.com.alura.loja.util.CargaDeProdutos;
 import br.com.alura.loja.util.JPAUtil;
 
@@ -52,18 +51,11 @@ public class CadastroDePedido {
 		Produto produto2 = produtoDao.buscarPorId(2L);
 		Produto produto3 = produtoDao.buscarPorId(3L);
 		
-		ItemPedido itemPedido1 = new ItemPedido(3, pedido1, produto1);
-		ItemPedido itemPedido2 = new ItemPedido(10, pedido1, produto2);
-		ItemPedido itemPedido3 = new ItemPedido(12, pedido1, produto3);
-		itemPedidoDao.cadastrar(itemPedido1);
-		itemPedidoDao.cadastrar(itemPedido2);
-		itemPedidoDao.cadastrar(itemPedido3);
-		
 		//realizando o mapeamento bidirecional em Pedido
-		pedido1.adicionarItem(itemPedido1);
-		pedido1.adicionarItem(itemPedido2);
-		pedido1.adicionarItem(itemPedido3);
-		
+		pedido1.adicionarItem(new ItemPedido(3, pedido1, produto1));  //meio de adição possível pelo cascade type all
+		pedido1.adicionarItem(new ItemPedido(10, pedido1, produto2)); //dessa maneira, quando o pedido for sal
+		pedido1.adicionarItem(new ItemPedido(12, pedido1, produto3)); //salvará também os ítens de pedido
+																	  //sem precisar salvar os ítens pedido individualmente
 		em.getTransaction().commit();
 		em.close();
 		
