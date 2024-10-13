@@ -30,16 +30,16 @@ public class Pedido {
 	private Cliente cliente;
 	
 	@OneToMany(mappedBy = "pedido") //mappedBy a evita criação de uma nova tabela
-	private List<RelacionamentoPedidoProduto> relacionamentoPedidoProduto = new ArrayList<RelacionamentoPedidoProduto>();
+	private List<ItemPedido> listaItemPedido = new ArrayList<ItemPedido>();
 
-	public List<RelacionamentoPedidoProduto> getRelacionamentoPedidoProduto() {
-		return relacionamentoPedidoProduto;
+	public List<ItemPedido> getListaItemPedido() {
+		return listaItemPedido;
 	}
 	
 	//maneira de realizar o mapeamento bidirecional
-	public void adicionarItem(RelacionamentoPedidoProduto relacionamentoPedidoProduto) {
-		relacionamentoPedidoProduto.setPedido(this);
-		this.relacionamentoPedidoProduto.add(relacionamentoPedidoProduto);
+	public void adicionarItem(ItemPedido itemPedido) {
+		itemPedido.setPedido(this);
+		this.listaItemPedido.add(itemPedido);
 	}
 
 	public Pedido(Cliente cliente) {

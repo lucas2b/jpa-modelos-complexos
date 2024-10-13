@@ -11,11 +11,11 @@ import org.h2.tools.Server;
 import br.com.alura.loja.dao.ClienteDao;
 import br.com.alura.loja.dao.PedidoDao;
 import br.com.alura.loja.dao.ProdutoDao;
-import br.com.alura.loja.dao.RelacionamentoPedidoProdutoDao;
+import br.com.alura.loja.dao.ItemPedidoDao;
 import br.com.alura.loja.modelo.Cliente;
 import br.com.alura.loja.modelo.Pedido;
 import br.com.alura.loja.modelo.Produto;
-import br.com.alura.loja.modelo.RelacionamentoPedidoProduto;
+import br.com.alura.loja.modelo.ItemPedido;
 import br.com.alura.loja.util.CargaDeProdutos;
 import br.com.alura.loja.util.JPAUtil;
 
@@ -33,7 +33,7 @@ public class CadastroDePedido {
 		ClienteDao clienteDao = new ClienteDao(em);
 		ProdutoDao produtoDao = new ProdutoDao(em);
 		PedidoDao pedidoDao = new PedidoDao(em);
-		RelacionamentoPedidoProdutoDao relacionamentoPedidoProdutoDao = new RelacionamentoPedidoProdutoDao(em);
+		ItemPedidoDao itemPedidoDao = new ItemPedidoDao(em);
 		// Fim Daos
 
 		Cliente cliente1 = new Cliente();
@@ -52,17 +52,17 @@ public class CadastroDePedido {
 		Produto produto2 = produtoDao.buscarPorId(2L);
 		Produto produto3 = produtoDao.buscarPorId(3L);
 		
-		RelacionamentoPedidoProduto rel1 = new RelacionamentoPedidoProduto(3, pedido1, produto1);
-		RelacionamentoPedidoProduto rel2 = new RelacionamentoPedidoProduto(10, pedido1, produto2);
-		RelacionamentoPedidoProduto rel3 = new RelacionamentoPedidoProduto(12, pedido1, produto3);
-		relacionamentoPedidoProdutoDao.cadastrar(rel1);
-		relacionamentoPedidoProdutoDao.cadastrar(rel2);
-		relacionamentoPedidoProdutoDao.cadastrar(rel3);
+		ItemPedido itemPedido1 = new ItemPedido(3, pedido1, produto1);
+		ItemPedido itemPedido2 = new ItemPedido(10, pedido1, produto2);
+		ItemPedido itemPedido3 = new ItemPedido(12, pedido1, produto3);
+		itemPedidoDao.cadastrar(itemPedido1);
+		itemPedidoDao.cadastrar(itemPedido2);
+		itemPedidoDao.cadastrar(itemPedido3);
 		
-		//mapeamento bidirecional
-		pedido1.adicionarItem(rel1);
-		pedido1.adicionarItem(rel2);
-		pedido1.adicionarItem(rel3);
+		//realizando o mapeamento bidirecional em Pedido
+		pedido1.adicionarItem(itemPedido1);
+		pedido1.adicionarItem(itemPedido2);
+		pedido1.adicionarItem(itemPedido3);
 		
 		em.getTransaction().commit();
 		em.close();
@@ -76,7 +76,7 @@ public class CadastroDePedido {
 		Pedido pedido1RecuperadoBancoDados = pedidoDao2.buscarPorId(1L);
 		
 		//Traz a lista do relacionamento inverso carregada
-		List<RelacionamentoPedidoProduto> notaFiscal = pedido1RecuperadoBancoDados.getRelacionamentoPedidoProduto();
+		List<ItemPedido> notaFiscal = pedido1RecuperadoBancoDados.getListaItemPedido();
 		
 
 		Thread.sleep(99999);
