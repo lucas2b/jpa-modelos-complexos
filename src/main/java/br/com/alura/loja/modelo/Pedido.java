@@ -2,6 +2,7 @@ package br.com.alura.loja.modelo;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -27,18 +29,17 @@ public class Pedido {
 	@ManyToOne
 	private Cliente cliente;
 	
-	@ManyToMany
-	private List<Produto> listaProdutosPedido;
+	@OneToMany(mappedBy = "pedido") //mappedBy a evita criação de uma nova tabela
+	private List<RelacionamentoPedidoProduto> relacionamentoPedidoProduto = new ArrayList<RelacionamentoPedidoProduto>();
 
-	public List<Produto> getListaProdutosPedido() {
-		return listaProdutosPedido;
+	public List<RelacionamentoPedidoProduto> getRelacionamentoPedidoProduto() {
+		return relacionamentoPedidoProduto;
 	}
-
-	public void setListaProdutosPedido(List<Produto> listaProdutosPedido) {
-		this.valorTotal = listaProdutosPedido.stream()
-	            .map(Produto::getPreco)
-	            .reduce(BigDecimal.ZERO, BigDecimal::add);
-		this.listaProdutosPedido = listaProdutosPedido;
+	
+	//maneira de realizar o mapeamento bidirecional
+	public void adicionarItem(RelacionamentoPedidoProduto relacionamentoPedidoProduto) {
+		relacionamentoPedidoProduto.setPedido(this);
+		this.relacionamentoPedidoProduto.add(relacionamentoPedidoProduto);
 	}
 
 	public Pedido(Cliente cliente) {
@@ -80,5 +81,19 @@ public class Pedido {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+	
+//	@ManyToMany //utilizado quando não há mais atributos além dos Ids
+//	private List<Produto> listaProdutosPedido;
+
+//	public List<Produto> getListaProdutosPedido() {
+//		return listaProdutosPedido;
+//	}
+//
+//	public void setListaProdutosPedido(List<Produto> listaProdutosPedido) {
+//		this.valorTotal = listaProdutosPedido.stream()
+//	            .map(Produto::getPreco)
+//	            .reduce(BigDecimal.ZERO, BigDecimal::add);
+//		this.listaProdutosPedido = listaProdutosPedido;
+//	}
 
 }
