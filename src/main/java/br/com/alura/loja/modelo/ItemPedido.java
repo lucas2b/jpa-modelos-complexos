@@ -44,4 +44,8 @@ public class ItemPedido {
 		this.pedido = pedido;
 	}
 
+	public BigDecimal getValorCalculado() {
+		return precoUnitario.multiply(BigDecimal.valueOf(quantidade));
+	}
+
 }

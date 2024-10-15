@@ -24,7 +24,7 @@ public class Pedido {
 	private Long id;
 	private String nome;
 	private String descricao;
-	private BigDecimal valorTotal;
+	private BigDecimal valorTotal = new BigDecimal(0);
 	private LocalDate data = LocalDate.now();
 
 	@ManyToOne
@@ -41,6 +41,7 @@ public class Pedido {
 	public void adicionarItem(ItemPedido itemPedido) {
 		itemPedido.setPedido(this);
 		this.listaItemPedido.add(itemPedido);
+		this.valorTotal = this.valorTotal.add(itemPedido.getValorCalculado());
 	}
 
 	public Pedido(Cliente cliente) {

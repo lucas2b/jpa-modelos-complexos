@@ -18,8 +18,9 @@ import br.com.alura.loja.modelo.Produto;
 import br.com.alura.loja.util.CargaDeProdutos;
 import br.com.alura.loja.util.JPAUtil;
 
-public class CadastroDePedido {
+public class CadastroDePedidoComRelacionamentoBidirecional {
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) throws SQLException, InterruptedException {
 
 		CargaDeProdutos.carregarProdutosBaseDeDados();
@@ -50,28 +51,26 @@ public class CadastroDePedido {
 		Produto produto1 = produtoDao.buscarPorId(1L);
 		Produto produto2 = produtoDao.buscarPorId(2L);
 		Produto produto3 = produtoDao.buscarPorId(3L);
-		
-		//realizando o mapeamento bidirecional em Pedido
-		pedido1.adicionarItem(new ItemPedido(3, pedido1, produto1));  //meio de adição possível pelo cascade type all
-		pedido1.adicionarItem(new ItemPedido(10, pedido1, produto2)); //dessa maneira, quando o pedido for sal
-		pedido1.adicionarItem(new ItemPedido(12, pedido1, produto3)); //salvará também os ítens de pedido
-																	  //sem precisar salvar os ítens pedido individualmente
+
+		// ----REALIZANDO O MAPEAMENTO BIDIRECIONAL EM "PEDIDO"
+		pedido1.adicionarItem(new ItemPedido(3, pedido1, produto1)); // meio de adição possível pelo "cascade type all"
+		pedido1.adicionarItem(new ItemPedido(10, pedido1, produto2)); // dessa maneira, quando o pedido for salvo
+		pedido1.adicionarItem(new ItemPedido(12, pedido1, produto3)); // salvará também os ítens de pedido
+																		// sem precisar salvar os ítens pedido
+																		// individualmente
 		em.getTransaction().commit();
 		em.close();
-		
-		//------------------------------------------------------------------
-		
+
+		// ------------------------------------------------------------------
+
 		EntityManager em2 = JPAUtil.getEntityManager();
 		PedidoDao pedidoDao2 = new PedidoDao(em2);
-		
-		//Trazendo o pedido 1
-		Pedido pedido1RecuperadoBancoDados = pedidoDao2.buscarPorId(1L);
-		
-		//Traz a lista do relacionamento inverso carregada
-		List<ItemPedido> notaFiscal = pedido1RecuperadoBancoDados.getListaItemPedido();
-		
 
-		Thread.sleep(99999);
+		// Trazendo o pedido 1
+		Pedido pedido1RecuperadoBancoDados = pedidoDao2.buscarPorId(1L);
+
+		// Traz a lista do relacionamento inverso carregada
+		List<ItemPedido> notaFiscal = pedido1RecuperadoBancoDados.getListaItemPedido();
 	}
 
 }
