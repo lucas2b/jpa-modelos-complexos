@@ -45,7 +45,6 @@ public class CadastroDePedidoComRelacionamentoBidirecional {
 		pedido1.setCliente(cliente1);
 		pedido1.setDescricao("pedido inicial do lucas");
 		pedido1.setNome("pedido 1");
-		pedidoDao.cadastrar(pedido1);
 
 		// pegando uma lista de produtos da base
 		Produto produto1 = produtoDao.buscarPorId(1L);
@@ -58,6 +57,24 @@ public class CadastroDePedidoComRelacionamentoBidirecional {
 		pedido1.adicionarItem(new ItemPedido(12, pedido1, produto3)); // salvará também os ítens de pedido
 																		// sem precisar salvar os ítens pedido
 																		// individualmente
+		pedidoDao.cadastrar(pedido1);
+		
+		//montando um pedido 2
+		Produto produto4 = produtoDao.buscarPorId(4L);
+		Produto produto5 = produtoDao.buscarPorId(5L);
+		Produto produto6 = produtoDao.buscarPorId(6L);
+		
+		Pedido pedido2 = new Pedido();
+		pedido2.setCliente(cliente1);
+		pedido2.setDescricao("pedido 2 do Lucas");
+		pedido2.setNome("pedido 2");
+		
+		pedido2.adicionarItem(new ItemPedido(21, pedido2, produto4));
+		pedido2.adicionarItem(new ItemPedido(10, pedido2, produto5));
+		pedido2.adicionarItem(new ItemPedido(5, pedido2, produto6));
+		pedidoDao.cadastrar(pedido2);
+		
+
 		em.getTransaction().commit();
 		em.close();
 
