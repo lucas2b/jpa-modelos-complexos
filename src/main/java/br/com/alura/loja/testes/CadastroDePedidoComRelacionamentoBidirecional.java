@@ -51,12 +51,12 @@ public class CadastroDePedidoComRelacionamentoBidirecional {
 		Produto produto2 = produtoDao.buscarPorId(2L);
 		Produto produto3 = produtoDao.buscarPorId(3L);
 
-		// ----REALIZANDO O MAPEAMENTO BIDIRECIONAL EM "PEDIDO"
-		pedido1.adicionarItem(new ItemPedido(3, pedido1, produto1)); // meio de adição possível pelo "cascade type all"
+		// -------  REALIZANDO O MAPEAMENTO BIDIRECIONAL DE "ItemPedido" em "Pedido"
+		pedido1.adicionarItem(new ItemPedido(3, pedido1, produto1));  // meio de adição possível pelo "cascade type all"
 		pedido1.adicionarItem(new ItemPedido(10, pedido1, produto2)); // dessa maneira, quando o pedido for salvo
 		pedido1.adicionarItem(new ItemPedido(12, pedido1, produto3)); // salvará também os ítens de pedido
-																		// sem precisar salvar os ítens pedido
-																		// individualmente
+																	  // sem precisar salvar os ítens pedido
+																	  // individualmente
 		pedidoDao.cadastrar(pedido1);
 		
 		//montando um pedido 2

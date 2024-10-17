@@ -24,6 +24,11 @@ public class PedidoDao {
 		return this.em.find(Pedido.class, id);
 	}
 	
+	public Pedido buscarPedidoComCliente(Long id) {
+		String jpql = "Select p from Pedido p join fetch p.cliente where p.id = :id";
+		return this.em.createQuery(jpql, Pedido.class).setParameter("id", id).getSingleResult();
+	}
+	
 	public BigDecimal calcularValorTotalDeTodosPedidos() {
 		String jpql = "Select sum(p.valorTotal) from Pedido p";
 		return this.em.createQuery(jpql, BigDecimal.class).getSingleResult();
