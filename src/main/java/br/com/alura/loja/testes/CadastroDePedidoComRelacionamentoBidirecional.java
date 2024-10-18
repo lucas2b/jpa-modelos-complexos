@@ -36,9 +36,7 @@ public class CadastroDePedidoComRelacionamentoBidirecional {
 		ItemPedidoDao itemPedidoDao = new ItemPedidoDao(em);
 		// Fim Daos
 
-		Cliente cliente1 = new Cliente();
-		cliente1.setNome("Lucas");
-		cliente1.setCpf("01127022016");
+		Cliente cliente1 = new Cliente("Lucas", "01127022016");
 		clienteDao.cadastrar(cliente1);
 
 		Pedido pedido1 = new Pedido();

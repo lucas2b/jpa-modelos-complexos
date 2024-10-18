@@ -25,9 +25,7 @@ public class TrazendoPropriedadesLazyComJoinFetch {
 		ProdutoDao produtoDao = new ProdutoDao(em);
 		PedidoDao pedidoDao = new PedidoDao(em);
 
-		Cliente cliente1 = new Cliente();
-		cliente1.setNome("Lucas");
-		cliente1.setCpf("01127022016");
+		Cliente cliente1 = new Cliente("Lucas", "01127022016");
 		clienteDao.cadastrar(cliente1);
 
 		Pedido pedido1 = new Pedido();
@@ -51,9 +49,9 @@ public class TrazendoPropriedadesLazyComJoinFetch {
 		em.getTransaction().commit();
 		em.close();
 		
-		//------------------ CONSULTA SEM CARREGAMENTO DE PROPRIEDADE LAZY ------------------
+		//------------------ CONSULTA SEM CARREGAMENTO DE PROPRIEDADE LAZY (ocasiona erro)------------------
 		
-		if (false) {
+		if (false) { //tornar "true" para testar
 			EntityManager em2 = JPAUtil.getEntityManager();
 			PedidoDao pedidoDao2 = new PedidoDao(em2);
 
